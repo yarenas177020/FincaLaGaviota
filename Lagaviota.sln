@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32126.315
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lagaviota.Common", "Lagaviota.Common\Lagaviota.Common.csproj", "{BCD7E277-F708-4E42-8B8A-3A6D576FF3F0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lagaviota.API", "Lagaviota.API\Lagaviota.API.csproj", "{D5D80CEE-7E1E-48B6-B9CB-EF181FB99859}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BCD7E277-F708-4E42-8B8A-3A6D576FF3F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCD7E277-F708-4E42-8B8A-3A6D576FF3F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCD7E277-F708-4E42-8B8A-3A6D576FF3F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCD7E277-F708-4E42-8B8A-3A6D576FF3F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5D80CEE-7E1E-48B6-B9CB-EF181FB99859}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5D80CEE-7E1E-48B6-B9CB-EF181FB99859}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5D80CEE-7E1E-48B6-B9CB-EF181FB99859}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5D80CEE-7E1E-48B6-B9CB-EF181FB99859}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {03308663-25F1-4788-87B9-BF94252E4289}
+	EndGlobalSection
+EndGlobal
