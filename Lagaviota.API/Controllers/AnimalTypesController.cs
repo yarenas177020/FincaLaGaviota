@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Lagaviota.API.Data;
+using Lagaviota.API.Data.Entities;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Lagaviota.API.Data;
-using Lagaviota.API.Data.Entities;
 
 namespace Lagaviota.API.Controllers
 {
@@ -25,24 +23,6 @@ namespace Lagaviota.API.Controllers
             return View(await _context.animalTypes.ToListAsync());
         }
 
-        // GET: AnimalTypes/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var animalType = await _context.animalTypes
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (animalType == null)
-            {
-                return NotFound();
-            }
-
-            return View(animalType);
-        }
-
         // GET: AnimalTypes/Create
         public IActionResult Create()
         {
@@ -54,13 +34,31 @@ namespace Lagaviota.API.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Description")] AnimalType animalType)
+        public async Task<IActionResult> Create(AnimalType animalType)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(animalType);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    _context.Add(animalType);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (DbUpdateException dbUpdateException)
+                {
+                    if (dbUpdateException.InnerException.Message.Contains("duplicate"))
+                    {
+                        ModelState.AddModelError(string.Empty, "Ya existe este tipo de animal.");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
+                    }
+                }
+                catch (Exception exception)
+                {
+                    ModelState.AddModelError(string.Empty, exception.Message);
+                }
             }
             return View(animalType);
         }
@@ -73,7 +71,7 @@ namespace Lagaviota.API.Controllers
                 return NotFound();
             }
 
-            var animalType = await _context.animalTypes.FindAsync(id);
+            AnimalType animalType = await _context.animalTypes.FindAsync(id);
             if (animalType == null)
             {
                 return NotFound();
@@ -86,7 +84,7 @@ namespace Lagaviota.API.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Description")] AnimalType animalType)
+        public async Task<IActionResult> Edit(int id, AnimalType animalType)
         {
             if (id != animalType.Id)
             {
@@ -99,19 +97,24 @@ namespace Lagaviota.API.Controllers
                 {
                     _context.Update(animalType);
                     await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateException dbUpdateException)
                 {
-                    if (!AnimalTypeExists(animalType.Id))
+                    if (dbUpdateException.InnerException.Message.Contains("duplicate"))
                     {
-                        return NotFound();
+                        ModelState.AddModelError(string.Empty, "Ya existe este tipo de animal.");
                     }
                     else
                     {
-                        throw;
+                        ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                catch (Exception exception)
+                {
+                    ModelState.AddModelError(string.Empty, exception.Message);
+                }
+
             }
             return View(animalType);
         }
@@ -124,22 +127,13 @@ namespace Lagaviota.API.Controllers
                 return NotFound();
             }
 
-            var animalType = await _context.animalTypes
+            AnimalType animalType = await _context.animalTypes
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (animalType == null)
             {
                 return NotFound();
             }
 
-            return View(animalType);
-        }
-
-        // POST: AnimalTypes/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var animalType = await _context.animalTypes.FindAsync(id);
             _context.animalTypes.Remove(animalType);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
