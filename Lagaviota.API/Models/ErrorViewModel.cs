@@ -1,5 +1,3 @@
-using System;
-
 namespace Lagaviota.API.Models
 {
     public class ErrorViewModel

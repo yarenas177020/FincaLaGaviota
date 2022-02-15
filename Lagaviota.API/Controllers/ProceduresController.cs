@@ -3,44 +3,38 @@ using Lagaviota.API.Data.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Lagaviota.API.Controllers
 {
-    public class AnimalTypesController : Controller
+    public class ProceduresController : Controller
     {
         private readonly DataContext _context;
 
-        public AnimalTypesController(DataContext context)
+        public ProceduresController(DataContext context)
         {
             _context = context;
         }
 
-        // GET: AnimalTypes
         public async Task<IActionResult> Index()
         {
-            return View(await _context.animalTypes.ToListAsync());
+            return View(await _context.Procedures.ToListAsync());
         }
 
-        // GET: AnimalTypes/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: AnimalTypes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Procedure animalType)
+        public async Task<IActionResult> Create(Procedure procedure)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Add(animalType);
+                    _context.Add(procedure);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
@@ -48,7 +42,7 @@ namespace Lagaviota.API.Controllers
                 {
                     if (dbUpdateException.InnerException.Message.Contains("duplicate"))
                     {
-                        ModelState.AddModelError(string.Empty, "Ya existe este tipo de animal.");
+                        ModelState.AddModelError(string.Empty, "Ya existe este procedimiento.");
                     }
                     else
                     {
@@ -60,10 +54,9 @@ namespace Lagaviota.API.Controllers
                     ModelState.AddModelError(string.Empty, exception.Message);
                 }
             }
-            return View(animalType);
+            return View(procedure);
         }
 
-        // GET: AnimalTypes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -71,22 +64,19 @@ namespace Lagaviota.API.Controllers
                 return NotFound();
             }
 
-            AnimalType animalType = await _context.animalTypes.FindAsync(id);
-            if (animalType == null)
+            Procedure procedure = await _context.Procedures.FindAsync(id);
+            if (procedure == null)
             {
                 return NotFound();
             }
-            return View(animalType);
+            return View(procedure);
         }
 
-        // POST: AnimalTypes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, AnimalType animalType)
+        public async Task<IActionResult> Edit(int id, Procedure procedure)
         {
-            if (id != animalType.Id)
+            if (id != procedure.Id)
             {
                 return NotFound();
             }
@@ -95,7 +85,7 @@ namespace Lagaviota.API.Controllers
             {
                 try
                 {
-                    _context.Update(animalType);
+                    _context.Update(procedure);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
@@ -116,7 +106,7 @@ namespace Lagaviota.API.Controllers
                 }
 
             }
-            return View(animalType);
+            return View(procedure);
         }
 
         // GET: AnimalTypes/Delete/5
@@ -127,21 +117,18 @@ namespace Lagaviota.API.Controllers
                 return NotFound();
             }
 
-            AnimalType animalType = await _context.animalTypes
+            Procedure procedure = await _context.Procedures
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (animalType == null)
+            if (procedure == null)
             {
                 return NotFound();
             }
 
-            _context.animalTypes.Remove(animalType);
+            _context.Procedures.Remove(procedure);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AnimalTypeExists(int id)
-        {
-            return _context.animalTypes.Any(e => e.Id == id);
-        }
+
     }
 }
