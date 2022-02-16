@@ -29,12 +29,9 @@ namespace Lagaviota.API.Controllers
             return View();
         }
 
-        // POST: AnimalTypes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Procedure animalType)
+        public async Task<IActionResult> Create(AnimalType animalType)
         {
             if (ModelState.IsValid)
             {
@@ -79,9 +76,6 @@ namespace Lagaviota.API.Controllers
             return View(animalType);
         }
 
-        // POST: AnimalTypes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, AnimalType animalType)

@@ -17,7 +17,6 @@ namespace Lagaviota.API
 
         public IConfiguration Configuration { get; }
 
-
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
@@ -25,6 +24,7 @@ namespace Lagaviota.API
             {
                 x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
