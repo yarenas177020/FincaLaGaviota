@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Lagaviota.API.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    
     public class AccountController : Controller
     {
         private readonly IUserHelper _userHelper;
