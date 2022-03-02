@@ -1,27 +1,26 @@
 ﻿using Lagaviota.API.Data;
 using Lagaviota.API.Data.Entities;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Lagaviota.API.Controllers
 {
-    [Authorize(Roles = "Admin")]
-    public class AnimalTypesController : Controller
+    public class OperatorsController :Controller
     {
         private readonly DataContext _context;
 
-        public AnimalTypesController(DataContext context)
+        public OperatorsController(DataContext _context)
         {
-            _context = context;
+            this._context = _context;
         }
 
         public async Task<IActionResult> Index()
         {
-            return View(await _context.animalTypes.ToListAsync());
+            return View(await _context.Operators.ToListAsync());
         }
 
         public IActionResult Create()
@@ -31,13 +30,13 @@ namespace Lagaviota.API.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(AnimalType animalType)
+        public async Task<IActionResult> Create(Operator operators)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Add(animalType);
+                    _context.Add(operators);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
@@ -57,10 +56,9 @@ namespace Lagaviota.API.Controllers
                     ModelState.AddModelError(string.Empty, exception.Message);
                 }
             }
-            return View(animalType);
+            return View(operators);
         }
 
-        // GET: AnimalTypes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -68,19 +66,19 @@ namespace Lagaviota.API.Controllers
                 return NotFound();
             }
 
-            AnimalType animalType = await _context.animalTypes.FindAsync(id);
-            if (animalType == null)
+            Operator opreators = await _context.Operators.FindAsync(id);
+            if (opreators == null)
             {
                 return NotFound();
             }
-            return View(animalType);
+            return View(opreators);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, AnimalType animalType)
+        public async Task<IActionResult> Edit(int id, Operator opreators)
         {
-            if (id != animalType.Id)
+            if (id != opreators.Id)
             {
                 return NotFound();
             }
@@ -89,7 +87,7 @@ namespace Lagaviota.API.Controllers
             {
                 try
                 {
-                    _context.Update(animalType);
+                    _context.Update(opreators);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
@@ -97,7 +95,7 @@ namespace Lagaviota.API.Controllers
                 {
                     if (dbUpdateException.InnerException.Message.Contains("duplicate"))
                     {
-                        ModelState.AddModelError(string.Empty, "Ya existe este tipo de animal.");
+                        ModelState.AddModelError(string.Empty, "Ya existe este Veterinario u Operario.");
                     }
                     else
                     {
@@ -110,10 +108,9 @@ namespace Lagaviota.API.Controllers
                 }
 
             }
-            return View(animalType);
+            return View(opreators);
         }
 
-        // GET: AnimalTypes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -121,21 +118,21 @@ namespace Lagaviota.API.Controllers
                 return NotFound();
             }
 
-            AnimalType animalType = await _context.animalTypes
+            Operator Operators = await _context.Operators
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (animalType == null)
+            if (Operators == null)
             {
                 return NotFound();
             }
 
-            _context.animalTypes.Remove(animalType);
+            _context.Operators.Remove(Operators);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool AnimalTypeExists(int id)
         {
-            return _context.animalTypes.Any(e => e.Id == id);
+            return _context.Operators.Any(e => e.Id == id);
         }
     }
 }
