@@ -3,23 +3,24 @@ using Lagaviota.API.Data.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Lagaviota.API.Controllers
 {
-    public class OperatorsController : Controller
+    public class DogsController : Controller
     {
         private readonly DataContext _context;
 
-        public OperatorsController(DataContext context)
+        public DogsController(DataContext context)
         {
             _context = context;
         }
 
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Operators.ToListAsync());
+            return View(await _context.Dogs.ToListAsync());
         }
 
         public IActionResult Create()
@@ -29,13 +30,64 @@ namespace Lagaviota.API.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Operator operators)
+        public async Task<IActionResult> Create(Dog dog)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Add(operators);
+                    _context.Add(dog);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (DbUpdateException dbUpdateException)
+                {
+                    if (dbUpdateException.InnerException.Message.Contains("duplicate"))
+                    {
+                        ModelState.AddModelError(string.Empty, "Ya existe este animal.");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
+                    }
+                }
+                catch (Exception exception)
+                {
+                    ModelState.AddModelError(string.Empty, exception.Message);
+                }
+            }
+            return View(dog);
+        }
+
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Dog dog = await _context.Dogs.FindAsync(id);
+            if (dog == null)
+            {
+                return NotFound();
+            }
+            return View(dog);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, Dog dog)
+        {
+            if (id != dog.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(dog);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
@@ -54,84 +106,34 @@ namespace Lagaviota.API.Controllers
                 {
                     ModelState.AddModelError(string.Empty, exception.Message);
                 }
-            }
-            return View(operators);
-        }
-
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            Operator opreators = await _context.Operators.FindAsync(id);
-            if (opreators == null)
-            {
-                return NotFound();
-            }
-            return View(opreators);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Operator opreators)
-        {
-            if (id != opreators.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(opreators);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
-                }
-                catch (DbUpdateException dbUpdateException)
-                {
-                    if (dbUpdateException.InnerException.Message.Contains("duplicate"))
-                    {
-                        ModelState.AddModelError(string.Empty, "Ya existe este Veterinario u Operario.");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
-                    }
-                }
-                catch (Exception exception)
-                {
-                    ModelState.AddModelError(string.Empty, exception.Message);
-                }
 
             }
-            return View(opreators);
+            return View(dog);
         }
 
         public async Task<IActionResult> Delete(int? id)
         {
+            
             if (id == null)
             {
                 return NotFound();
             }
 
-            Operator Operators = await _context.Operators
+            Dog dog = await _context.Dogs
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (Operators == null)
+            if (dog == null)
             {
-                return NotFound();
+                return NotFound();                
             }
 
-            _context.Operators.Remove(Operators);
+            _context.Dogs.Remove(dog);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AnimalTypeExists(int id)
+        private bool DogExists(int id)
         {
-            return _context.Operators.Any(e => e.Id == id);
+            return _context.Dogs.Any(e => e.Id == id);
         }
     }
 }

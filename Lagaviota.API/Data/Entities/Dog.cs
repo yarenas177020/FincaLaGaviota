@@ -14,7 +14,7 @@ namespace Lagaviota.API.Data.Entities
         public string Name { get; set; }
 
         [Display(Name = "Fecha de Nacimiento:")]
-        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
+        [DisplayFormat(DataFormatString ="{0:yyyy/MM/dd}")]
         public DateTime Birthday { get; set; }
 
         [Display(Name = "Sexo:")]
@@ -33,9 +33,7 @@ namespace Lagaviota.API.Data.Entities
 
         public ICollection<Photo> Photos { get; set; }
 
-        [Display(Name = "# Fotos")]
-        public int PhotosCount => Photos == null ? 0 : Photos.Count;
-
+        
         //TODO: Fix the Images path
         [Display(Name = "Foto")]
         public string ImageFullPath => Photos == null || Photos.Count == 0
