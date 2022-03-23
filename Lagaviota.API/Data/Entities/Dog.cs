@@ -13,16 +13,15 @@ namespace Lagaviota.API.Data.Entities
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public string Name { get; set; }
 
-        [Display(Name = "Fecha de Nacimiento:")]
-        [DisplayFormat(DataFormatString ="{0:yyyy/MM/dd}")]
-        public DateTime Birthday { get; set; }
+        [Display(Name = "Año de Nacimiento:")]
+        [Range(2000, 3000, ErrorMessage ="Año no válido.")]
+        public int Bornyear { get; set; }
 
         [Display(Name = "Sexo:")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public string Gender { get; set; }
 
         [Display(Name = "Color:")]
-        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         [MaxLength(50, ErrorMessage = "El campo {0} no puede tener más de {1} carácteres.")]
         public string Color { get; set; }
 
