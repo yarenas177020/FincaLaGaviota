@@ -1,7 +1,7 @@
-﻿@model IEnumerable<Lagaviota.API.Data.Entities.AnimalType>
+﻿@model IEnumerable<Lagaviota.API.Data.Entities.Horse>
 
 @{
-    ViewData["Title"] = "Tipo de Animal";
+    ViewData["Title"] = "Equinos";
 }
 
 <link rel="stylesheet" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css" />
@@ -13,14 +13,14 @@
     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">Tipos de Animales</h3>
+                <h3 class="panel-title">Equinos</h3>
             </div>
             <div class="panel-body">
                 <table class="table table-hover table-responsive table-striped" id="MyTable">
                     <thead>
                         <tr>
                             <th>
-                                @Html.DisplayNameFor(model => model.Description)
+                                @Html.DisplayNameFor(model => model.Name)
                             </th>
                             <th></th>
                         </tr>
@@ -30,8 +30,9 @@
                         {
                             <tr>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Description)
+                                    @Html.DisplayFor(modelItem => item.Name)
                                 </td>
+
                                 <td>
                                     <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Editar</a>
                                     <button data-id="@item.Id" class="btn btn-danger deleteItem" data-toggle="modal" data-target="#deleteDialog">Borrar</button>
@@ -64,7 +65,8 @@
                 ]
             });
             // Delete item
-            sc_deleteDialog.openModal('deleteItem', true, 'btnYesDelete', '/animalTypes/Delete/', false);
+            sc_deleteDialog.openModal('deleteItem', true, 'btnYesDelete', '/Horses/Delete/', false);
+
         });
     </script>
 }

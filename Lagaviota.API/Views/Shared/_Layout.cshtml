@@ -23,7 +23,10 @@
                         @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="AnimalTypes" asp-action="Index">Tipo de Animal</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Horses" asp-action="Index">Equinos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Dogs" asp-action="Index">Canino</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Procedures" asp-action="Index">Procedimientos</a>
@@ -31,18 +34,7 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Operators" asp-action="Index">Vet / Operadores</a>
                             </li>
-                            <li class="nav-item">
-                                <div class="dropdown">
-                                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-                                        Registrar Nuevo
-                                        <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="#">Equino</a></li>
-                                        <li><a class="dropdown-item" asp-controller="Dogs" asp-action="Index">Canino</a></li>
-                                    </ul>
-                                </div>
-                            </li>
+                           
                         }
                     </ul>
                     <ul class="nav navbar-nav navbar-right">

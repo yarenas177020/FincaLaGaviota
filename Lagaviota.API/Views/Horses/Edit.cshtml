@@ -1,4 +1,4 @@
-﻿@model Lagaviota.API.Data.Entities.AnimalType
+﻿@model Lagaviota.API.Data.Entities.Horse
 
 @{
     ViewData["Title"] = "Editar";
@@ -6,20 +6,22 @@
 
 <h1>Editar</h1>
 
-<h4>Tipo de Animal</h4>
+<h4>Equino</h4>
 <hr />
 <div class="row">
     <div class="col-md-12">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
-            
-            <partial name="_AnimalType" />
-               
+
+            <partial name="_Horse" />
+
             <div class="form-group">
                 <input type="submit" value="Guardar" class="btn btn-primary" />
                 <a asp-action="Index" class="btn btn-success">Regresar</a>
             </div>
+            <br />
+            <br />
         </form>
     </div>
 </div>

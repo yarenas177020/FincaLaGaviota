@@ -1,19 +1,19 @@
-﻿@model Lagaviota.API.Data.Entities.Operator
+﻿@model Lagaviota.API.Data.Entities.Horse
 
 @{
-    ViewData["Title"] = "Nuevo";
+    ViewData["Title"] = "Create";
 }
 
 <h1>Crear</h1>
 
-<h4>Vet / Operario</h4>
+<h4>Equino</h4>
 <hr />
 <div class="row">
     <div class="col-md-12">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <partial name="_Operator" />
+            <partial name="_Horse" />
 
             <div class="form-group">
                 <input type="submit" value="Crear" class="btn btn-primary" />

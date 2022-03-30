@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 
 namespace Lagaviota.API.Controllers
 {
-    public class OperatorsController : Controller
+    public class HorsesController : Controller
     {
         private readonly DataContext _context;
 
-        public OperatorsController(DataContext context)
+        public HorsesController(DataContext context)
         {
             _context = context;
         }
 
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Operators.ToListAsync());
+            return View(await _context.Horses.ToListAsync());
         }
 
         public IActionResult Create()
@@ -29,13 +29,13 @@ namespace Lagaviota.API.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Operator operators)
+        public async Task<IActionResult> Create(Horse horse)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Add(operators);
+                    _context.Add(horse);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
@@ -43,7 +43,7 @@ namespace Lagaviota.API.Controllers
                 {
                     if (dbUpdateException.InnerException.Message.Contains("duplicate"))
                     {
-                        ModelState.AddModelError(string.Empty, "Ya existe este tipo de animal.");
+                        ModelState.AddModelError(string.Empty, "Ya existe este animal.");
                     }
                     else
                     {
@@ -55,7 +55,7 @@ namespace Lagaviota.API.Controllers
                     ModelState.AddModelError(string.Empty, exception.Message);
                 }
             }
-            return View(operators);
+            return View(horse);
         }
 
         public async Task<IActionResult> Edit(int? id)
@@ -65,19 +65,19 @@ namespace Lagaviota.API.Controllers
                 return NotFound();
             }
 
-            Operator opreators = await _context.Operators.FindAsync(id);
-            if (opreators == null)
+            Horse horse = await _context.Horses.FindAsync(id);
+            if (horse == null)
             {
                 return NotFound();
             }
-            return View(opreators);
+            return View(horse);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Operator opreators)
+        public async Task<IActionResult> Edit(int id, Horse horse)
         {
-            if (id != opreators.Id)
+            if (id != horse.Id)
             {
                 return NotFound();
             }
@@ -86,7 +86,7 @@ namespace Lagaviota.API.Controllers
             {
                 try
                 {
-                    _context.Update(opreators);
+                    _context.Update(horse);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
@@ -94,7 +94,7 @@ namespace Lagaviota.API.Controllers
                 {
                     if (dbUpdateException.InnerException.Message.Contains("duplicate"))
                     {
-                        ModelState.AddModelError(string.Empty, "Ya existe este Veterinario u Operario.");
+                        ModelState.AddModelError(string.Empty, "El caballo ya existe en la base de datos.");
                     }
                     else
                     {
@@ -107,31 +107,32 @@ namespace Lagaviota.API.Controllers
                 }
 
             }
-            return View(opreators);
+            return View(horse);
         }
 
         public async Task<IActionResult> Delete(int? id)
         {
+
             if (id == null)
             {
                 return NotFound();
             }
 
-            Operator Operators = await _context.Operators
+            Horse horse = await _context.Horses
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (Operators == null)
+            if (horse == null)
             {
                 return NotFound();
             }
 
-            _context.Operators.Remove(Operators);
+            _context.Horses.Remove(horse);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AnimalTypeExists(int id)
+        private bool HorseExist(int id)
         {
-            return _context.Operators.Any(e => e.Id == id);
+            return _context.Horses.Any(e => e.Id == id);
         }
     }
 }

@@ -32,6 +32,10 @@ namespace Lagaviota.API.Data.Entities
 
         public ICollection<Photo> Photos { get; set; }
 
+        public ICollection<History> Histories { get; set; }
+
+
+
         
         //TODO: Fix the Images path
         [Display(Name = "Foto")]

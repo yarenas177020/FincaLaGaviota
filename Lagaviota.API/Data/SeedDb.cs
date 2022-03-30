@@ -21,7 +21,6 @@ namespace Lagaviota.API.Data
         public async Task SeedAsync()
         {
             await _context.Database.EnsureCreatedAsync();
-            await CheckAnimalTypesAsync();
             await CheckProceduresAsync();
             await CheckRolesAsync();
             await CheckUserAsync("lvelez","Luis","Velez", UserType.User);
@@ -63,14 +62,6 @@ namespace Lagaviota.API.Data
             }
         }
 
-        private async Task CheckAnimalTypesAsync()
-        {
-            if (!_context.animalTypes.Any())
-            {
-                _context.animalTypes.Add(new AnimalType { Description = "Caballo" });
-                _context.animalTypes.Add(new AnimalType { Description = "Perro" });
-                await _context.SaveChangesAsync();
-            }
-        }
+       
     }
 }

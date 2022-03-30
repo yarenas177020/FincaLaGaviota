@@ -20,8 +20,7 @@ namespace Lagaviota.API.Data.Entities
         [Display(Name = "Usuario")]
         public ICollection<User> Users { get; set; }
 
-        [Display(Name = "Veterinario / Operario")]
-        public ICollection<Operator> Operators { get; set; }
+        
 
 
     }
