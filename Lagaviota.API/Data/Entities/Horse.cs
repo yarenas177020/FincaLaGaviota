@@ -21,9 +21,12 @@ namespace Lagaviota.API.Data.Entities
         [Display(Name = "Sexo")]
         public string Gender { set; get; }
 
-        public ICollection<Photo> Photos { get; set; }
-
+       
         public ICollection<History> Histories { get; set; }
+        [Display(Name = "# Historias")]
+        public int HistoriesCount => Histories == null ? 0 : Histories.Count;
+
+        public ICollection<Photo> Photos { get; set; }
 
         //TODO: Fix the Images path
         [Display(Name = "Foto")]

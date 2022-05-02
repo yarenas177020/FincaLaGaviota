@@ -30,13 +30,13 @@ namespace Lagaviota.API.Data.Entities
         [MaxLength(50, ErrorMessage = "El campo {0} no puede tener más de {1} carácteres.")]
         public string breed { get; set; }
 
-        public ICollection<Photo> Photos { get; set; }
-
         public ICollection<History> Histories { get; set; }
 
+        [Display(Name = "# Historias")]
+        public int HistoriesCount => Histories == null ? 0 : Histories.Count;
 
+        public ICollection<Photo> Photos { get; set; }
 
-        
         //TODO: Fix the Images path
         [Display(Name = "Foto")]
         public string ImageFullPath => Photos == null || Photos.Count == 0

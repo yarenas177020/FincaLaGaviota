@@ -113,7 +113,7 @@ namespace Lagaviota.API.Controllers
 
         public async Task<IActionResult> Delete(int? id)
         {
-            
+
             if (id == null)
             {
                 return NotFound();
@@ -123,7 +123,7 @@ namespace Lagaviota.API.Controllers
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (dog == null)
             {
-                return NotFound();                
+                return NotFound();
             }
 
             _context.Dogs.Remove(dog);
@@ -135,5 +135,7 @@ namespace Lagaviota.API.Controllers
         {
             return _context.Dogs.Any(e => e.Id == id);
         }
+
+        
     }
 }

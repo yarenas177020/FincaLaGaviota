@@ -11,11 +11,15 @@ namespace Lagaviota.API.Data
 
         }
 
+        public DbSet<Dog> Details { get; set; }
+
         public DbSet<Dog> Dogs { get; set; }
 
-        //public DbSet<Procedure> Histrories { get; set; }
+        public DbSet<History> Histrories { get; set; }
 
         public DbSet<Horse> Horses { get; set; }
+
+        public DbSet<Photo> Photos { get; set; }
 
         public DbSet<Procedure> Procedures { get; set; }
 

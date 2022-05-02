@@ -23,8 +23,8 @@ namespace Lagaviota.API.Data.Entities
         //TODO: Fix the Images path
         [Display(Name = "Foto")]
         public string ImageFullPath => ImageId == Guid.Empty
-            ? $"https://localhost:5001/images/nophoto.png"
-            : $"https://localhost:5001/users/{ImageId}";
+            ? $"https://localhost:44384/images/nophoto.png"
+            : $"https://localhost:44384/users/{ImageId}";
 
         [Display(Name = "Tipo de usuario.")]
         public UserType UserType { get; set; }

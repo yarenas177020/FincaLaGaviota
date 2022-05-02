@@ -4,14 +4,16 @@ using Lagaviota.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Lagaviota.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220426184400_updatedatabase")]
+    partial class updatedatabase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,21 +36,6 @@ namespace Lagaviota.API.Migrations
                     b.ToTable("DetailProcedure");
                 });
 
-            modelBuilder.Entity("DogHistory", b =>
-                {
-                    b.Property<int>("DogId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("HistoriesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("DogId", "HistoriesId");
-
-                    b.HasIndex("HistoriesId");
-
-                    b.ToTable("DogHistory");
-                });
-
             modelBuilder.Entity("Lagaviota.API.Data.Entities.Detail", b =>
                 {
                     b.Property<int>("Id")
@@ -56,7 +43,7 @@ namespace Lagaviota.API.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("HistoryId")
+                    b.Property<int>("HistoryId")
                         .HasColumnType("int");
 
                     b.Property<string>("Remarks")
@@ -115,6 +102,9 @@ namespace Lagaviota.API.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("DogId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("HorseId")
                         .HasColumnType("int");
 
@@ -122,6 +112,8 @@ namespace Lagaviota.API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DogId");
 
                     b.HasIndex("HorseId");
 
@@ -193,15 +185,10 @@ namespace Lagaviota.API.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int?>("HistoryId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("Description")
                         .IsUnique();
-
-                    b.HasIndex("HistoryId");
 
                     b.ToTable("Procedures");
                 });
@@ -433,35 +420,28 @@ namespace Lagaviota.API.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("DogHistory", b =>
-                {
-                    b.HasOne("Lagaviota.API.Data.Entities.Dog", null)
-                        .WithMany()
-                        .HasForeignKey("DogId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Lagaviota.API.Data.Entities.History", null)
-                        .WithMany()
-                        .HasForeignKey("HistoriesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Lagaviota.API.Data.Entities.Detail", b =>
                 {
                     b.HasOne("Lagaviota.API.Data.Entities.History", "History")
-                        .WithMany()
-                        .HasForeignKey("HistoryId");
+                        .WithMany("Details")
+                        .HasForeignKey("HistoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("History");
                 });
 
             modelBuilder.Entity("Lagaviota.API.Data.Entities.History", b =>
                 {
+                    b.HasOne("Lagaviota.API.Data.Entities.Dog", "Dog")
+                        .WithMany("Histories")
+                        .HasForeignKey("DogId");
+
                     b.HasOne("Lagaviota.API.Data.Entities.Horse", null)
                         .WithMany("Histories")
                         .HasForeignKey("HorseId");
+
+                    b.Navigation("Dog");
                 });
 
             modelBuilder.Entity("Lagaviota.API.Data.Entities.Photo", b =>
@@ -477,13 +457,6 @@ namespace Lagaviota.API.Migrations
                         .HasForeignKey("HorseId");
 
                     b.Navigation("Dog");
-                });
-
-            modelBuilder.Entity("Lagaviota.API.Data.Entities.Procedure", b =>
-                {
-                    b.HasOne("Lagaviota.API.Data.Entities.History", null)
-                        .WithMany("Procedure")
-                        .HasForeignKey("HistoryId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -539,12 +512,14 @@ namespace Lagaviota.API.Migrations
 
             modelBuilder.Entity("Lagaviota.API.Data.Entities.Dog", b =>
                 {
+                    b.Navigation("Histories");
+
                     b.Navigation("Photos");
                 });
 
             modelBuilder.Entity("Lagaviota.API.Data.Entities.History", b =>
                 {
-                    b.Navigation("Procedure");
+                    b.Navigation("Details");
                 });
 
             modelBuilder.Entity("Lagaviota.API.Data.Entities.Horse", b =>

@@ -9,9 +9,12 @@
     <input asp-for="Bornyear" class="form-control" />
     <span asp-validation-for="Bornyear" class="text-danger"></span>
 
+   
     <label asp-for="Gender" class="control-label"></label>
-    <input asp-for="Gender" class="form-control" />
-    <span asp-validation-for="Gender" class="text-danger"></span>
+    <select name="Gender" id="Gender" class="form-control">
+        <option value="Hembra">Hembra</option>
+        <option value="Macho">Macho</option>
+    </select>
 
     <label asp-for="Color" class="control-label"></label>
     <input asp-for="Color" class="form-control" />
